@@ -1,0 +1,111 @@
+1. 自行熟悉下Stream的javadoc以及提供的一系列方法
+
+2. Stream分析：
+
+BaseStream<T, Stream<T> 第一个泛型属于的流中元素，第二个泛型Stream<T>也即BaseStream中泛型S
+public interface Stream<T> extends BaseStream<T, Stream<T>> {
+
+}
+
+public interface BaseStream<T, S extends BaseStream<T, S>>
+        extends AutoCloseable {
+
+   /** 返回一个流中元素的分隔迭代器。
+     * Returns a spliterator for the elements of this stream.
+     *
+     * <p>This is a <a href="package-summary.html#StreamOps">terminal
+     * operation</a>.
+     *
+     * @return the element spliterator for this stream
+     */
+    Spliterator<T> spliterator();
+
+   /**
+     * 应该在执行流终止操作之前使用，否则可能非预期结果。
+     * Returns whether this stream, if a terminal operation were to be executed,
+     * would execute in parallel.  Calling this method after invoking an
+     * terminal stream operation method may yield unpredictable results.
+     *
+     * @return {@code true} if this stream would execute in parallel if executed
+     */
+    boolean isParallel();
+
+   /** 返回一个等价的串行流，可能返回本身(已是串行流)或者流状态被修改为串行流
+     * S：流本身，一个新的流对象
+     * Returns an equivalent stream that is sequential.  May return
+     * itself, either because the stream was already sequential, or because
+     * the underlying stream state was modified to be sequential.
+     *
+     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
+     * operation</a>.
+     *
+     * @return a sequential stream
+     */
+    S sequential();
+
+   /**
+     * 返回一个等价的并行流，可能返回本身(已是并行流)或者流状态被修改为并行流
+     * S：流本身，一个新的流对象
+     * Returns an equivalent stream that is parallel.  May return
+     * itself, either because the stream was already parallel, or because
+     * the underlying stream state was modified to be parallel.
+     *
+     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
+     * operation</a>.
+     *
+     * @return a parallel stream
+     */
+    S parallel();
+
+
+   /** 来自于AutoCloseable
+     * Returns an equivalent stream with an additional close handler.  Close
+     * handlers are run when the {@link #close()} method
+     * is called on the stream, and are executed in the order they were
+     * added.  All close handlers are run, even if earlier close handlers throw
+     * exceptions.  If any close handler throws an exception, the first
+     * exception thrown will be relayed to the caller of {@code close()}, with
+     * any remaining exceptions added to that exception as suppressed exceptions
+     * (unless one of the remaining exceptions is the same exception as the
+     * first exception, since an exception cannot suppress itself.)  May
+     * return itself.
+     *
+     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
+     * operation</a>.
+     *
+     * @param closeHandler A task to execute when the stream is closed
+     * @return a stream with a handler that is run if the stream is closed
+     */
+    S onClose(Runnable closeHandler);
+        }
+
+
+================================
+
+Spliterator中的OfInt：
+/**
+ * {@inheritDoc}
+ * @implSpec
+ * If the action is an instance of {@code IntConsumer} then it is cast
+ * to {@code IntConsumer} and passed to
+ * {@link #tryAdvance(java.util.function.IntConsumer)}; otherwise
+ * the action is adapted to an instance of {@code IntConsumer}, by
+ * boxing the argument of {@code IntConsumer}, and then passed to
+ * {@link #tryAdvance(java.util.function.IntConsumer)}.
+ */
+@Override
+default boolean tryAdvance(Consumer<? super Integer> action) {
+    if (action instanceof IntConsumer) {
+        return tryAdvance((IntConsumer) action);
+    }
+    else {
+        if (Tripwire.ENABLED)
+            Tripwire.trip(getClass(),
+                          "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
+        return tryAdvance((IntConsumer) action::accept);
+    }
+}
+
+
+
+

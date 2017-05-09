@@ -1,0 +1,207 @@
+1. 自行熟悉下Stream的javadoc以及提供的一系列方法
+
+2. Stream分析：
+
+BaseStream<T, Stream<T> 第一个泛型属于的流中元素，第二个泛型Stream<T>也即BaseStream中泛型S
+public interface Stream<T> extends BaseStream<T, Stream<T>> {
+
+}
+
+public interface BaseStream<T, S extends BaseStream<T, S>>
+        extends AutoCloseable {
+
+   /** 返回一个流中元素的分隔迭代器。
+     * Returns a spliterator for the elements of this stream.
+     *
+     * <p>This is a <a href="package-summary.html#StreamOps">terminal
+     * operation</a>.
+     *
+     * @return the element spliterator for this stream
+     */
+    Spliterator<T> spliterator();
+
+   /**
+     * 应该在执行流终止操作之前使用，否则可能非预期结果。
+     * Returns whether this stream, if a terminal operation were to be executed,
+     * would execute in parallel.  Calling this method after invoking an
+     * terminal stream operation method may yield unpredictable results.
+     *
+     * @return {@code true} if this stream would execute in parallel if executed
+     */
+    boolean isParallel();
+
+   /** 返回一个等价的串行流，可能返回本身(已是串行流)或者流状态被修改为串行流
+     * S：流本身，一个新的流对象
+     * Returns an equivalent stream that is sequential.  May return
+     * itself, either because the stream was already sequential, or because
+     * the underlying stream state was modified to be sequential.
+     *
+     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
+     * operation</a>.
+     *
+     * @return a sequential stream
+     */
+    S sequential();
+
+   /**
+     * 返回一个等价的并行流，可能返回本身(已是并行流)或者流状态被修改为并行流
+     * S：流本身，一个新的流对象
+     * Returns an equivalent stream that is parallel.  May return
+     * itself, either because the stream was already parallel, or because
+     * the underlying stream state was modified to be parallel.
+     *
+     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
+     * operation</a>.
+     *
+     * @return a parallel stream
+     */
+    S parallel();
+
+
+   /** 来自于AutoCloseable
+     * Returns an equivalent stream with an additional close handler.  Close
+     * handlers are run when the {@link #close()} method
+     * is called on the stream, and are executed in the order they were
+     * added.  All close handlers are run, even if earlier close handlers throw
+     * exceptions.  If any close handler throws an exception, the first
+     * exception thrown will be relayed to the caller of {@code close()}, with
+     * any remaining exceptions added to that exception as suppressed exceptions
+     * (unless one of the remaining exceptions is the same exception as the
+     * first exception, since an exception cannot suppress itself.)  May
+     * return itself.
+     *
+     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
+     * operation</a>.
+     *
+     * @param closeHandler A task to execute when the stream is closed
+     * @return a stream with a handler that is run if the stream is closed
+     */
+    S onClose(Runnable closeHandler);
+        }
+
+============================================================
+
+构建一个流过程关键阶段解析：
+Collection接口的stream方法：
+default Stream<E> stream() {
+    return StreamSupport.stream(spliterator(), false);
+}
+
+
+调用了StreamSupport.stream方法：
+public static <T> Stream<T> stream(Spliterator<T> spliterator, boolean parallel) {
+    Objects.requireNonNull(spliterator);
+    return new ReferencePipeline.Head<>(spliterator,
+                                        StreamOpFlag.fromCharacteristics(spliterator),
+                                        parallel);
+}
+
+ReferencePipeline：表示流的源阶段与中间阶段；
+ReferencePipeline.Head表示流的源阶段；
+二者大部分属性设置是类似的，但存在一些属性是不同的，比如说Head是没有previousStage的，而ReferencePipeline则是存在previousStage的，等等。
+
+/**
+ * Source stage of a ReferencePipeline.
+ *
+ * @param <E_IN> type of elements in the upstream source
+ * @param <E_OUT> type of elements in produced by this stage
+ * @since 1.8
+ */
+static class Head<E_IN, E_OUT> extends ReferencePipeline<E_IN, E_OUT> {
+    /**
+     * Constructor for the source stage of a Stream.
+     *
+     * @param source {@code Supplier<Spliterator>} describing the stream
+     *               source
+     * @param sourceFlags the source flags for the stream source, described
+     *                    in {@link StreamOpFlag}
+     */
+    Head(Supplier<? extends Spliterator<?>> source,
+         int sourceFlags, boolean parallel) {
+        super(source, sourceFlags, parallel);
+    }
+
+// 对中间pipeline或者源pipeline阶段元素操作的基类
+// 这里的ReferencePipeline很重要，继承了AbstractPipeline，实现了Stream接口。
+abstract class ReferencePipeline<P_IN, P_OUT>
+        extends AbstractPipeline<P_IN, P_OUT, Stream<P_OUT>>
+        implements Stream<P_OUT>  {
+
+}
+
+AbstractPipeline：
+一个AbstractPipeline代表流的初始部分，封装了一个源或者0个或多个中间操作，每一个AbstractPipeline对象通常叫做stages，阶段；
+而每一个阶段描述的源或中间操作；
+一个具体的中间阶段通常是由一个AbstractPipeline来构建，一个形状特化的这种pipeline，如IntPipeline 能避免装箱和拆箱操作；
+在连接完新的中间操作或者执行了一个终止操作，流本身被认为已消费掉，而且不允许在这个流上再次执行中间操作或者终止操作；
+
+实现的API说明：
+对于串行流和无状态中间操作的并行流，管道pipeline的计算实在一趟操作过程被完成的。
+【
+举个例子理解：
+List<Integer> list = Arrays.asList(1,3,5,6);
+stream().map(i -> i * 2).filter(i >=10)...
+上述并不是像传统面向对象编程过程的命令式计算：先计算出2、6、10、12，然后在做过滤大于10的元素；
+对于流的计算第一步拿到i=1，执行map计算得到2，然后执行filter计算过滤不符合，则filter方法后续所有步骤都不执行；也就是每个元素都会执行一次map，filetr过程..., 以此类推。
+】
+对于有操作状态的并行流，会被分割为几个segments（段），每一个有状态的操作都会标识着一个段的结尾，每一个段单独计算，以及执行的结果作为下一个段的输入；
+所有的情况中，只有终止操作被调用时，源数据才会被消费；
+abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
+        extends PipelineHelper<E_OUT> implements BaseStream<E_OUT, S> {
+
+}
+
+
+
+/**
+ * Constructor for the head of a stream pipeline.
+ *
+ * @param source {@code Supplier<Spliterator>} describing the stream source
+ * @param sourceFlags The source flags for the stream source, described in
+ * {@link StreamOpFlag}
+ * @param parallel True if the pipeline is parallel
+ */
+AbstractPipeline(Supplier<? extends Spliterator<?>> source,
+                 int sourceFlags, boolean parallel) {
+    this.previousStage = null;
+    this.sourceSupplier = source;
+    this.sourceStage = this;
+    this.sourceOrOpFlags = sourceFlags & StreamOpFlag.STREAM_MASK;
+    // The following is an optimization of:
+    // StreamOpFlag.combineOpFlags(sourceOrOpFlags, StreamOpFlag.INITIAL_OPS_VALUE);
+    this.combinedFlags = (~(sourceOrOpFlags << 1)) & StreamOpFlag.INITIAL_OPS_VALUE;
+    this.depth = 0;
+    this.parallel = parallel;
+}
+
+/**
+ * Constructor for the head of a stream pipeline.
+ *
+ * @param source {@code Spliterator} describing the stream source
+ * @param sourceFlags the source flags for the stream source, described in
+ * {@link StreamOpFlag}
+ * @param parallel {@code true} if the pipeline is parallel
+ */
+AbstractPipeline(Spliterator<?> source,
+                 int sourceFlags, boolean parallel) {
+    this.previousStage = null;
+    this.sourceSpliterator = source;
+    this.sourceStage = this;
+    this.sourceOrOpFlags = sourceFlags & StreamOpFlag.STREAM_MASK;
+    // The following is an optimization of:
+    // StreamOpFlag.combineOpFlags(sourceOrOpFlags, StreamOpFlag.INITIAL_OPS_VALUE);
+    this.combinedFlags = (~(sourceOrOpFlags << 1)) & StreamOpFlag.INITIAL_OPS_VALUE;
+    this.depth = 0;
+    this.parallel = parallel;
+}
+因为是Head，所以previousStage是空；
+sourceSpliterator或者sourceSupplier只能用一个，另外一个被设置为空，如果流结束后不为空则设置为空；
+两者之间是互斥的；
+
+
+List<String> list = Arrays.asList("hello", "world");
+list.stream().forEach(); 源流直接调用forEach，直接调用ReferencePipeline.Head优化的处理，效率更高；
+list.stream().map(item->item).forEach(); 若有中间操作，则直接调用ReferencePipeline类的forEach；
+
+如果pipeline管道阶段是源阶段，则直接获得源阶段spliterator。
+

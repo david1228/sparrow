@@ -1,0 +1,46 @@
+PiplelineHelper.java
+
+
+对流当中多个中间操作的一种串联，
+/**
+ * Takes a {@code Sink} that accepts elements of the output type of the
+ * {@code PipelineHelper}, and wrap it with a {@code Sink} that accepts
+ * elements of the input type and implements all the intermediate operations
+ * described by this {@code PipelineHelper}, delivering the result into the
+ * provided {@code Sink}.
+ *
+ * @param sink the {@code Sink} to receive the results
+ * @return a {@code Sink} that implements the pipeline stages and sends
+ *         results to the provided {@code Sink}
+ */
+ // 翻译：Sink接受PipelineHelper中的输出类型的元素，
+ 并且包装到一个Sink，这个Sink接受通过这个PipelineHelper所描述的输入类型元素和所有的中间操作的实现，并把结果传递给输入Sink；
+abstract<P_IN> Sink<P_IN> wrapSink(Sink<P_OUT> sink);
+
+
+@Override
+@SuppressWarnings("unchecked")
+final <P_IN> Sink<P_IN> wrapSink(Sink<E_OUT> sink) {
+    Objects.requireNonNull(sink);
+
+    for ( @SuppressWarnings("rawtypes") AbstractPipeline p=AbstractPipeline.this; p.depth > 0; p=p.previousStage) {
+        sink = p.opWrapSink(p.previousStage.combinedFlags, sink);
+    }
+    return (Sink<P_IN>) sink;
+}
+
+
+wrappedSink继承了Consumer，这个方法目的执行串联的操作；
+@Override
+final <P_IN> void copyInto(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator) {
+    Objects.requireNonNull(wrappedSink);
+
+    if (!StreamOpFlag.SHORT_CIRCUIT.isKnown(getStreamAndOpFlags())) {
+        wrappedSink.begin(spliterator.getExactSizeIfKnown());
+        spliterator.forEachRemaining(wrappedSink);
+        wrappedSink.end();
+    }
+    else {
+        copyIntoWithCancel(wrappedSink, spliterator);
+    }
+}
