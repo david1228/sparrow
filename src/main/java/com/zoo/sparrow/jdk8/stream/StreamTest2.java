@@ -10,6 +10,8 @@ import java.util.stream.IntStream;
 public class StreamTest2 {
 
     public static void main(String[] args) {
+        IntStream intStream = IntStream.of(new int[]{1,2,3,4});
+
         System.out.println(IntStream.of(2,3,4).sum());
         System.out.println("------");
         IntStream.of(1,4,6).forEach(System.out::println);

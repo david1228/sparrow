@@ -1,0 +1,39 @@
+syntax = "proto2";
+
+package com.zoo.sparrow.netty.sixthexample;
+
+option java_package = "com.zoo.sparrow.netty.sixthexample";
+option java_outer_classname = "MyDataInfo";
+
+message MyMessage {
+
+    enum DataType {
+        PersonType = 1;
+        CatType = 2;
+        DogType = 3;
+    }
+
+    required DataType dataType = 1;
+
+    oneof dataBody {
+        Person person = 2;
+        Cat cat = 3;
+        Dog dog = 4;
+    }
+}
+
+message Person {
+    optional string name = 1;
+    optional int32 age = 2;
+    optional string email = 3;
+}
+
+message Cat {
+    optional string name = 1;
+    optional int32 sex = 2;
+}
+
+message Dog {
+    optional string name = 1;
+    optional string color = 2;
+}

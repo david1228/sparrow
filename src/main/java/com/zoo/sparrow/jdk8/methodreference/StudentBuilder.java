@@ -1,5 +1,8 @@
 package com.zoo.sparrow.jdk8.methodreference;
 
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
 /**
  * Created by David.Liu on 17/3/27.
  */
@@ -11,7 +14,7 @@ public class StudentBuilder {
      * @param supplier
      * @return
      */
-    public Student getStudent(java.util.function.Supplier<Student> supplier){
+    public Student getStudent(Supplier<Student> supplier){
         return supplier.get();
     }
 
@@ -23,7 +26,7 @@ public class StudentBuilder {
      * @param biFunction
      * @return
      */
-    public Student getStudent(String name, Integer score, java.util.function.BiFunction<String, Integer, Student> biFunction){
+    public Student getStudent(String name, Integer score, BiFunction<String, Integer, Student> biFunction){
         return  biFunction.apply(name, score);
     }
 

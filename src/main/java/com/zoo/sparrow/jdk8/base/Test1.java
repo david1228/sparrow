@@ -15,6 +15,8 @@ interface MyInterface {
         System.out.println("static method");
     }
 
+    default String staticString(){return null;}
+
     default void defaultTest() {
         System.out.println("default method");
     }

@@ -1,5 +1,7 @@
 package com.zoo.sparrow.jdk8.methodreference;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,8 +47,8 @@ public class MethodReferenceTest {
         list.forEach(p -> System.out.println(p));
 
         System.out.println("---------2.引用明(对象名)::实例方法名 + 3. 类名::实例方法名");
-        java.util.List<String> cities = java.util.Arrays.asList("bj", "ou", "hk");
-        java.util.Collections.sort(cities, String::compareToIgnoreCase);
+        List<String> cities = Arrays.asList("bj", "ou", "hk");
+        Collections.sort(cities, String::compareToIgnoreCase);
         cities.forEach(System.out::println);
 
         System.out.println("-------3. 类名::实例方法名, 按分数排序");
@@ -59,7 +61,9 @@ public class MethodReferenceTest {
         System.out.println("-------4. 构造方法引用: 类名::new");
         StudentBuilder studentBuilder = new StudentBuilder();
         System.out.println(studentBuilder.getStudent(Student::new));
+        System.out.println(studentBuilder.getStudent(() -> new Student()));
         System.out.println(studentBuilder.getStudent("zhaoliu", 18, Student::new));
+        System.out.println(studentBuilder.getStudent("zhagnsan", 20, (name, score) -> new Student(name, score)));
 
     }
 

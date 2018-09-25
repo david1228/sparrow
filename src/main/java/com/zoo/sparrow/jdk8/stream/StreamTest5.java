@@ -31,5 +31,17 @@ public class StreamTest5 {
 
         Stream<List<Integer>> listStream = Stream.of(Arrays.asList(1), Arrays.asList(2, 3, 4), Arrays.asList(4, 5, 6));
         listStream.flatMap(theList -> theList.stream()).map(item -> item * item).collect(Collectors.toList()).forEach(System.out::println);
+
+
+        // flatmap联系，来自于java8action, 返回去重后的单个单词比如H e l o W r d
+        List<String> words = Arrays.asList("Hello", "World");
+//        String[] words = new String[]{"Hello", "World"};
+//        Stream<String> stringStream = Arrays.stream(words);
+        // 通过map(Arrays::stream)返回的是Stream<Stream<String>>对象
+        System.out.println("--map(Arrays::stream)");
+        words.stream().map(wd -> wd.split("")).map(Arrays::stream).distinct().forEach(wd -> System.out.print(wd + " "));
+        System.out.println("--flatmap(Arrays::stream)");
+        // 通过flatmap(Arrays::stream), 将Arrays::stream返回多个Stream<String>里面的元素打平为一个流
+        words.stream().map(wd -> wd.split("")).flatMap(Arrays::stream).distinct().forEach(wd -> System.out.print(wd + " "));
     }
 }
