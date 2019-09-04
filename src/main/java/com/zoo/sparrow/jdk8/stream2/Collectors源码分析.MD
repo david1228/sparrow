@@ -6,8 +6,13 @@
 2. 通过reducing方法来实现，reducing方法本身又是通过CollectorImpl实现的。
 所以归根结底，Collectors底层都是通过CollectorImpl实现的。
 
+<<<<<<< HEAD
 ####集合方法详解：
 #####toCollection<br>(toList和toSet只是toCollection方法的一种特化)
+=======
+#### 集合方法详解：
+##### toCollection<br>(toList和toSet只是toCollection方法的一种特化)
+>>>>>>> bad4c6281d31844da2b6577c98597ad24d8e3fc2
 ````
 public static <T, C extends Collection<T>>
     Collector<T, ?, C> toCollection(Supplier<C> collectionFactory) {
@@ -18,7 +23,11 @@ public static <T, C extends Collection<T>>
 ````
 可以直接传入collectionFactory即可。
 
+<<<<<<< HEAD
 #####toList
+=======
+##### toList
+>>>>>>> bad4c6281d31844da2b6577c98597ad24d8e3fc2
 ````
 public static <T>
     Collector<T, ?, List<T>> toList() {
@@ -32,7 +41,11 @@ List::add 将元素添加到中间结果容器
 (left, right) -> { left.addAll(right); return left; }  将结果容器合并到新的结果容器
 CH_ID 表示Characteristics.IDENTITY_FINISHER特性，默认是同一性的。
 
+<<<<<<< HEAD
 #####toSet
+=======
+##### toSet
+>>>>>>> bad4c6281d31844da2b6577c98597ad24d8e3fc2
 ````
 public static <T>
     Collector<T, ?, Set<T>> toSet() {
@@ -46,8 +59,13 @@ Set::add 将元素添加到中间结果容器
 (left, right) -> { left.addAll(right); return left; }  将结果容器合并到新的结果容器
 CH_UNORDERED_ID 表示Characteristics.UNORDERED、Characteristics.IDENTITY_FINISHER特性，也就是无序并且具有同一性的。
    
+<<<<<<< HEAD
 ####Join拼接方法详解
 #####joining
+=======
+#### Join拼接方法详解
+##### joining
+>>>>>>> bad4c6281d31844da2b6577c98597ad24d8e3fc2
 ````
 public static Collector<CharSequence, ?, String> joining() {
         return new CollectorImpl<CharSequence, StringBuilder, String>(
@@ -77,8 +95,13 @@ public static Collector<CharSequence, ?, String> joining(CharSequence delimiter)
         return joining(delimiter, "", "");
     }
 ````    
+<<<<<<< HEAD
 ####mapping方法详解
 #####mapping
+=======
+#### mapping方法详解
+##### mapping
+>>>>>>> bad4c6281d31844da2b6577c98597ad24d8e3fc2
 ````
 public static <T, U, A, R>
     Collector<T, ?, R> mapping(Function<? super T, ? extends U> mapper,
@@ -102,7 +125,11 @@ Map<City, Set<String>> lastNamesByCity
 ````                                           
 那么上述示例中的downstream下游就是toSet()方法
 
+<<<<<<< HEAD
 #####collectingAndThen
+=======
+##### collectingAndThen
+>>>>>>> bad4c6281d31844da2b6577c98597ad24d8e3fc2
 ````
 public static<T,A,R,RR> Collector<T,A,RR> collectingAndThen(Collector<T,A,R> downstream,
                                                                 Function<R,RR> finisher) {

@@ -1,7 +1,5 @@
 public interface Spliterator<T> {
 
-
-
 #如果当前spliterator被分割，会被分割为两部分，包含元素的返回新的spliterator，另一部分不包含元素的可能是空。两者之间没有任何交集；
 如果这个spliterator是一个ORDERED，返回的spliterator也应该是一个ORDERED的。
 除非这个spliterator涵盖的是一个无线的元素，否则，涵盖元素是确定的，那么你重复调用trySplit，并最终会返回空，代表spliterator不能再进一步被分割了；
@@ -15,15 +13,11 @@ API说明：
 
 Spliterator<T> trySplit();
 
-
-
 #估算大小
 返回元素估算值，在通过forEachRemaining遍历的时候；
 元素数量本身无线，未知的，计算成本太高的，那么直接返回Integer.MAX_VALUE；
 如果spliterator是SIZE，并且没有部分的被遍历和分隔，或者是SUBSIZE，没有被遍历，那么这个estimate是个元素精确值；否则，这种估算可能是不精确的，但是必须要减少随着trySplit调用而减少；
 
 long estimateSize();
-
-
 
 }

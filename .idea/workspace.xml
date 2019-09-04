@@ -2,18 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="570bddc9-6cef-48ca-b0c2-db0c21074f81" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/joda/JodaTest1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/joda/JodaTest3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/3.4/file-changes/last-build.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/3.4/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/3.4/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/built.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties.lock" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__commons_io_commons_io_1_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_commons_commons_lang3_3_2_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/sparrow.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/sparrow.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/sparrow_main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/sparrow_main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/sparrow_test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/sparrow_test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/main/com/letv/iemulate/algorithm/AlgorithmT.class" beforeDir="false" />
@@ -67,6 +77,12 @@
       <change beforePath="$PROJECT_DIR$/build/classes/main/com/letv/iemulate/jdk8/stream2/SpliteratorTest2.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/main/com/letv/iemulate/jdk8/stream2/StreamPractice1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/main/com/letv/iemulate/joda/JodaTest1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/concurrent/CompletableFutureTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/concurrent/CompletableFutureTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/Collectors源码分析.MD" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/Collectors源码分析.MD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/groupingBy源码分析.MD" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/groupingBy源码分析.MD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/分隔迭代器源码分析" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/分隔迭代器源码分析" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/比较器.MD" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/比较器.MD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/自行实现Collector.MD" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/jdk8/stream2/自行实现Collector.MD" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/joda/JodaTest1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zoo/sparrow/joda/JodaTest1.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

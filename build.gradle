@@ -1,4 +1,4 @@
-group 'com.letv.sparrow'
+group 'com.zoo.sparrow'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'

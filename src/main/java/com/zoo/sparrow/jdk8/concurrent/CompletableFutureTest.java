@@ -22,7 +22,6 @@ public class CompletableFutureTest {
         });
 
         System.out.println(222);
-
         boolean useCommonPool =
                 (ForkJoinPool.getCommonPoolParallelism() > 1);
         System.out.println(useCommonPool);
