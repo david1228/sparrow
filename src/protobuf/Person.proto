@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+package com.zoo.sparrow.protobuf;
+
+option java_package = "com.zoo.sparrow.protobuf";
+option java_outer_classname = "MyDataInfo";
+
+message Person {
+    required string name = 1;
+    required int32 age = 2;
+    optional string email = 3;
+}

@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparrow.iml" filepath="$PROJECT_DIR$/.idea/modules/sparrow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/git-sparrow_main.iml" filepath="$PROJECT_DIR$/.idea/modules/git-sparrow_main.iml" group="sparrow" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/git-sparrow_test.iml" filepath="$PROJECT_DIR$/.idea/modules/git-sparrow_test.iml" group="sparrow" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparrow.iml" filepath="$PROJECT_DIR$/.idea/modules/sparrow.iml" group="sparrow" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparrow_main.iml" filepath="$PROJECT_DIR$/.idea/modules/sparrow_main.iml" group="sparrow" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sparrow_test.iml" filepath="$PROJECT_DIR$/.idea/modules/sparrow_test.iml" group="sparrow" />
     </modules>
