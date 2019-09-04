@@ -17,5 +17,6 @@ public class StreamTest10 {
 
         List<String> list = list1.stream().flatMap(item1 -> list2.stream().map(item -> item1 + item))
                 .collect(Collectors.toList());
+        list.forEach(System.out::println);
     }
 }

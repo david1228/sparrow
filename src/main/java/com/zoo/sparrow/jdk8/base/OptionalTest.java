@@ -1,7 +1,6 @@
 package com.zoo.sparrow.jdk8.base;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +52,7 @@ public class OptionalTest {
 
     public List<Employee> processEmployee(Company company) {
         Optional<Company> optional1 = Optional.ofNullable(company);
-        return optional1.map(c -> c.getEmployees()).orElse(Collections.emptyList());
+        return optional1.map(c -> c.getEmployees()).orElseThrow(() -> new RuntimeException("空了")); //.orElse(Collections.emptyList());
     }
 
     private static class Employee {
